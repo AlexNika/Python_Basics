@@ -4,6 +4,14 @@
 equation = 'y = -12x + 11111140.2121'
 x = 2.5
 # вычислите и выведите y
+formula = equation.split()
+for element in formula:
+    if 'x' in element:
+        k = float(element[:len(element) - 1])
+    if '.' in element and 'x' not in element:
+        b = float(element)
+y = k * x + b
+print(f'При x={x} в уравнении {equation} координата у = {y}')
 
 
 # Задание-2: Дата задана в виде строки формата 'dd.mm.yyyy'.
@@ -17,12 +25,29 @@ x = 2.5
 #  (т.е. 2 символа для дня, 2 - для месяца, 4 - для года)
 
 # Пример корректной даты
-date = '01.11.1985'
+#date = '01.11.1985'
 
 # Примеры некорректных дат
-date = '01.22.1001'
-date = '1.12.1001'
-date = '-2.10.3001'
+#date = '01.22.1001'
+#date = '1.12.1001'
+#date = '-2.10.3001'
+my_date = input('Введите дату в формате DD.MM.YYYY: ').split('.')
+my_day = int(my_date[0])
+my_month = int(my_date[1])
+my_year = int(my_date[2])
+days_per_month = {1:31, 2:30, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+if len(my_date[0]) != 2 or len(my_date[1]) != 2 or len(my_date[2]) != 4:
+    print(f'Неверно введена дата. Фоpмат даты {".".join(my_date)} не соответствует DD.MM.YYYY')
+elif my_day < 1 or my_day > 31:
+    print(f'Вы ввели некорректную дату. Неверное задан день - !!! {my_day} !!!')
+elif my_month < 1 or my_month > 12:
+    print(f'Вы ввели некорректную дату. Неверное задан месяц - !!! {my_month} !!!')
+elif my_year < 1 or my_year > 9999:
+    print(f'Вы ввели некорректную дату. Неверное задан год - !!! {my_year} !!!')
+elif my_day >= 30 and days_per_month[my_month] != my_day:
+    print(f'Вы ввели некорректную дату. В {my_month}-м месяце должно быть {days_per_month[my_month]} дней!')
+else:
+    print(f'Введенная дата {".".join(my_date)} корректна.')
 
 
 # Задание-3: "Перевёрнутая башня" (Задача олимпиадного уровня)
@@ -54,3 +79,21 @@ date = '-2.10.3001'
 #
 # Вход: 11
 # Выход: 5 3
+room_number = int(input('Введите номер комнаты: '))
+rooms_block = 0
+last_room = 0
+last_floor = 0
+while room_number > last_room:
+    rooms_block += 1
+    last_room += rooms_block * rooms_block
+    last_floor += rooms_block
+i = 0
+while last_room > room_number:
+    last_room -= 1
+    if i < rooms_block - 1:
+        i += 1
+    else:
+        last_floor -= 1
+        i = 0
+position = rooms_block - i
+print(f'Этаж: {last_floor}, Позиция комнаты на этаже по счету слева: {position}')
